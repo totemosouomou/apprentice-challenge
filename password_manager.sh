@@ -19,7 +19,13 @@ do
       echo $title:$name:$pass >> ./passwords.md
       ;;
     Get\ Password)
-      echo "開発中"
+      echo "サービス名を入力してください："
+      read title
+      if egrep -q "^$title:" ./passwords.md; then
+        egrep "^$title:" ./passwords.md
+      else
+        echo "そのサービスは登録されていません。"
+      fi
       ;;
     Exit)
       echo "Thank you!"
