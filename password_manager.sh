@@ -1,7 +1,7 @@
 echo "パスワードマネージャーへようこそ！"
 next=1
 
-for i in {1..2}
+while true;
 do
   if [ $next -eq 1 ]; then
     echo "次の選択肢から入力してください(Add Password/Get Password/Exit)："
