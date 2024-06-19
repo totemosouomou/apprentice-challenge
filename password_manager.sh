@@ -22,7 +22,10 @@ do
       echo "サービス名を入力してください："
       read title
       if egrep -q "^$title:" ./passwords.md; then
-        egrep "^$title:" ./passwords.md
+        IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
+        echo "サービス名：$service"
+        echo "ユーザー名：$username"
+        echo "パスワード：$password"
       else
         echo "そのサービスは登録されていません。"
       fi
