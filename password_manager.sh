@@ -1,8 +1,11 @@
 echo "パスワードマネージャーへようこそ！"
+next=1
 
 for i in {1..2}
 do
-  echo "次の選択肢から入力してください(Add Password/Get Password/Exit)："
+  if [ $next -eq 1 ]; then
+    echo "次の選択肢から入力してください(Add Password/Get Password/Exit)："
+  fi
   read input
   case $input in
     Add\ Password)
@@ -24,6 +27,7 @@ do
       ;;
     *)
       echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
+      next=0
       ;;
   esac
 done
