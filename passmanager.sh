@@ -6,3 +6,5 @@ read name
 echo "パスワードを入力してください："
 read pass
 echo "Thank you!"
+
+echo $title:$name:$pass >> ./passwords.md
