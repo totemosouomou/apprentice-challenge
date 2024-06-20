@@ -1,11 +1,12 @@
 echo "パスワードマネージャーへようこそ！"
-next=1
+next=0
 
 while true;
 do
-  if [ $next -eq 1 ]; then
+  if [ $next -eq 0 ]; then
     echo "次の選択肢から入力してください(Add Password/Get Password/Exit)："
   fi
+  next=0
   read input
   case $input in
     Add\ Password)
@@ -36,7 +37,7 @@ do
       ;;
     *)
       echo "入力が間違えています。Add Password/Get Password/Exit から入力してください。"
-      next=0
+      next=1
       ;;
   esac
 done
