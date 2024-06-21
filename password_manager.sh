@@ -1,5 +1,7 @@
 echo "パスワードマネージャーへようこそ！"
 next=0
+FILE="passwords.md.gpg"
+TEMP="passwords.md"
 
 while true;
 do
@@ -17,15 +19,15 @@ do
       echo "パスワードを入力してください："
       read pass
       echo "パスワードの追加は成功しました。"
-      gpg --decrypt ./passwords.md.gpg > ./passwords.md 2> /dev/null
-      echo $title:$name:$pass >> ./passwords.md
-      gpg --yes --output ./passwords.md.gpg --encrypt --recipient totemosouomou@gmail.com < ./passwords.md
-      rm ./passwords.md
+      gpg --decrypt $FILE > $TEMP 2> /dev/null
+      echo $title:$name:$pass >> $TEMP
+      gpg --yes --output $FILE --encrypt --recipient totemosouomou@gmail.com < $TEMP
+      rm $TEMP
       ;;
     Get\ Password)
       echo "サービス名を入力してください："
       read title
-      result=$(gpg --decrypt ./passwords.md.gpg 2> /dev/null | grep "^$title:")
+      result=$(gpg --decrypt $FILE 2> /dev/null | grep "^$title:")
       if [ -n "$result" ]; then
         IFS=: read service username password <<< $result
         echo "サービス名: $service"
