@@ -19,22 +19,18 @@ do
       echo "パスワードの追加は成功しました。"
       echo $title:$name:$pass >> ./passwords.md
       gpg --yes --output ./passwords.md.gpg --encrypt --recipient totemosouomou@gmail.com ./passwords.md
-      chmod go-rwx ./passwords.md
+      chmod ugo-rwx ./passwords.md
       ;;
     Get\ Password)
       echo "サービス名を入力してください："
       read title
-      if gpg --yes --output ./passwords.md --decrypt ./passwords.md.gpg 2> /dev/null; then
-        if egrep -q "^$title:" ./passwords.md; then
-          IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
-          echo "サービス名：$service"
-          echo "ユーザー名：$username"
-          echo "パスワード：$password"
-        else
-          echo "そのサービスは登録されていません。"
-        fi
+      if gpg --yes --output ./passwords.md --decrypt ./passwords.md.gpg 2> /dev/null && egrep -q "^$title:" ./passwords.md; then
+        IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
+        echo "サービス名：$service"
+        echo "ユーザー名：$username"
+        echo "パスワード：$password"
       else
-        echo "ファイルの復号に失敗しました。"
+        echo "そのサービスは登録されていません。"
       fi
       ;;
     Exit)
