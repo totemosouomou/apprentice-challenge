@@ -18,10 +18,13 @@ do
       read pass
       echo "パスワードの追加は成功しました。"
       echo $title:$name:$pass >> ./passwords.md
+      gpg --output ./passwords.md.gpg --encrypt --recipient totemosouomou@gmail.com ./passwords.md
+      chmod go-rwx ./passwords.md
       ;;
     Get\ Password)
       echo "サービス名を入力してください："
       read title
+      gpg --output ./passwords.md --decript ./passwords.gpg
       if egrep -q "^$title:" ./passwords.md; then
         IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
         echo "サービス名：$service"
