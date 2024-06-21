@@ -17,10 +17,10 @@ do
       echo "パスワードを入力してください："
       read pass
       echo "パスワードの追加は成功しました。"
-      chmod u+rw ./passwords.md
+      gpg --decrypt ./passwords.md.gpg > ./passwords.md 2> /dev/null
       echo $title:$name:$pass >> ./passwords.md
-      gpg --yes --output ./passwords.md.gpg --encrypt --recipient totemosouomou@gmail.com ./passwords.md
-      chmod ugo-rwx ./passwords.md
+      gpg --yes --output ./passwords.md.gpg --encrypt --recipient totemosouomou@gmail.com < ./passwords.md
+      rm ./passwords.md
       ;;
     Get\ Password)
       echo "サービス名を入力してください："
