@@ -24,14 +24,17 @@ do
     Get\ Password)
       echo "サービス名を入力してください："
       read title
-      gpg --yes --output ./passwords.md --decrypt ./passwords.md.gpg 2> /dev/null
-      if egrep -q "^$title:" ./passwords.md; then
-        IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
-        echo "サービス名：$service"
-        echo "ユーザー名：$username"
-        echo "パスワード：$password"
+      if gpg --yes --output ./passwords.md --decrypt ./passwords.md.gpg 2> /dev/null; then
+        if egrep -q "^$title:" ./passwords.md; then
+          IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
+          echo "サービス名：$service"
+          echo "ユーザー名：$username"
+          echo "パスワード：$password"
+        else
+          echo "そのサービスは登録されていません。"
+        fi
       else
-        echo "そのサービスは登録されていません。"
+        echo "ファイルの復号に失敗しました。"
       fi
       ;;
     Exit)
