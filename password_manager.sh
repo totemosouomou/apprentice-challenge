@@ -17,6 +17,7 @@ do
       echo "パスワードを入力してください："
       read pass
       echo "パスワードの追加は成功しました。"
+      chmod u+rw ./passwords.md
       echo $title:$name:$pass >> ./passwords.md
       gpg --yes --output ./passwords.md.gpg --encrypt --recipient totemosouomou@gmail.com ./passwords.md
       chmod ugo-rwx ./passwords.md
@@ -24,6 +25,7 @@ do
     Get\ Password)
       echo "サービス名を入力してください："
       read title
+      chmod u+rw ./passwords.md
       if gpg --yes --output ./passwords.md --decrypt ./passwords.md.gpg 2> /dev/null && egrep -q "^$title:" ./passwords.md; then
         IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
         echo "サービス名：$service"
@@ -32,6 +34,7 @@ do
       else
         echo "そのサービスは登録されていません。"
       fi
+      chmod ugo-rwx ./passwords.md
       ;;
     Exit)
       echo "Thank you!"
