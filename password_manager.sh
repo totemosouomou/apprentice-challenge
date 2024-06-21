@@ -25,16 +25,15 @@ do
     Get\ Password)
       echo "サービス名を入力してください："
       read title
-      chmod u+rw ./passwords.md
-      if gpg --yes --output ./passwords.md --decrypt ./passwords.md.gpg 2> /dev/null && egrep -q "^$title:" ./passwords.md; then
-        IFS=':' read service username password <<< $(egrep "^$title:" ./passwords.md)
-        echo "サービス名：$service"
-        echo "ユーザー名：$username"
-        echo "パスワード：$password"
+      result=$(gpg --decrypt ./passwords.md.gpg 2> /dev/null | grep "^$title:")
+      if [ -n "$result" ]; then
+        IFS=: read service username password <<< $result
+        echo "サービス名: $service"
+        echo "ユーザー名: $username"
+        echo "パスワード: $password"
       else
         echo "そのサービスは登録されていません。"
       fi
-      chmod ugo-rwx ./passwords.md
       ;;
     Exit)
       echo "Thank you!"
